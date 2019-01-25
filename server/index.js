@@ -1,4 +1,4 @@
-require('dotenv'),config()
+require('dotenv').config()
 const express =  require('express')
 const {json} = require('body-parser')
 const massive = require('massive')
@@ -8,6 +8,7 @@ const app = express()
 app.use(json())
 
 massive(process.env.CONNECTION_STRING).then(dbInstance=>{
+    // console.log(dbInstance)
     app.set('db', dbInstance)
 }).catch(err=>{
     console.log(err)
