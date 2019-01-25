@@ -4,6 +4,8 @@ import './App.css';
 import Dashboard from './component/Dashboard/Dashboard'
 import Form from './component/Form/Form'
 import Header from './component/Header/Header'
+import routes from './routes'
+import {BrowserRouter, Link} from 'react-router-dom'
 
 class App extends Component {
   constructor(props){
@@ -21,13 +23,18 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.inventory)
+    // console.log(this.state.inventory)
     return (
+      <BrowserRouter>
       <div className="App">
+        <Link to="/add">Form</Link>
         <Header/>
-        <Dashboard inventory={this.state.inventory}/>
-        <Form/>
+        <Dashboard inventory={this.state.inventory}
+                   componentDidMount={this.componentDidMount}/>
+        <Form componentDidMount={this.componentDidMount}/>
+        {routes}
       </div>
+      </BrowserRouter>
     );
   }
 }

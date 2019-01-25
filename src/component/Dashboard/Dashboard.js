@@ -1,20 +1,30 @@
 import React, {Component} from 'react';
 import Product from '../Product/Product'
+import axios from 'axios';
 
 class Dashboard extends Component{
+    deleteProduct=(id)=>{
+        axios.delete(`/api/inventory/${id}`).then(()=>{
+            this.props.componentDidMount();
+        }).catch(err=>{
+            console.log(err)
+        })
+        
+    }
+
     render(props){
         let {inventory} = this.props
         return(
             <div>
                 <h1>Dashboard</h1>
-                {/* {this.props.inventory.map((e,i)=><Product/>)} */}
                 {inventory.map((e,i)=>
-                    <Product key={i} 
+                    <Product key={i}
+                             id={e.product_id}
                              name={e.name}
                              price={e.price}
-                             image={e.image}/>
+                             image={e.image}
+                             deleteProduct={this.deleteProduct}/>
                 )}
-                {/* <Product inventory={this.props.inventory}/> */}
             </div>
         )
     }

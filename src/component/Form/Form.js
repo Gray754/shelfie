@@ -1,25 +1,41 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 class Form extends Component{
     constructor(){
         super();
         this.state={
-            imageUrl: '',
+            image: '',
             name: '',
             price: ''
         }
         this.onChange = this.onChange.bind(this)
-        this.cancelForm = this.cancelForm.bind(this)
+        this.clearForm = this.clearForm.bind(this)
+        this.postProduct = this.postProduct.bind(this)
     }
 
     onChange(value, id){
         this.setState({[id]: value})
     }
 
-    cancelForm(){
-        this.setState({imageUrl:''})
+    clearForm(){
+        this.setState({image:''})
         this.setState({name:''})
         this.setState({price:''})
+    }
+
+    postProduct(){
+        axios.post('/api/product',{
+            name: this.state.name,
+            price: this.state.price,
+            image: this.state.image
+        }).then(()=>{
+            this.props.componentDidMount();
+            this.clearForm();
+            
+        }).catch(err=>{
+            console.log(err)
+        });
     }
 
     render(){
@@ -27,11 +43,11 @@ class Form extends Component{
         return(
             <div>
                 <h1>Form</h1>
-                <input placeholder='image url' onChange={e=>this.onChange(e.target.value, 'imageUrl')} value={this.state.imageUrl}/>
+                <input placeholder='image' onChange={e=>this.onChange(e.target.value, 'image')} value={this.state.image}/>
                 <input placeholder='name' onChange={e=>this.onChange(e.target.value, 'name')} value={this.state.name}/>
                 <input placeholder='price' onChange={e=>this.onChange(e.target.value, 'price')} value={this.state.price}/>
-                <button onClick={this.cancelForm}>Cancel</button>
-                <button>Add to Inventory</button>
+                <button onClick={this.clearForm}>Cancel</button>
+                <button onClick={this.postProduct}>Add to Inventory</button>
             </div>
         )
     }
