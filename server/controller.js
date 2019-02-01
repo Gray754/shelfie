@@ -31,8 +31,21 @@ const deleteProduct=(req,res,next)=>{
     })
 }
 
+const updateProduct=(req, res, next)=>{
+    const db = req.app.get('db')
+    let {id} = req.params
+    let {price} = req.body
+    db.updateProduct([price, id]).then(results=>{
+        res.status(200).json(results)
+    }).catch(err=>{
+        console.log(err)
+        res.status(500).send('There was an error with the server.')
+    })
+}
+
 module.exports={
     getDb,
     postProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 }

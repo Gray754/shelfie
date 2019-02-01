@@ -3,13 +3,36 @@ import Product from '../Product/Product'
 import axios from 'axios';
 
 class Dashboard extends Component{
+    constructor(){
+        super();
+        this.state={
+            priceUpdate: '',
+            editBtn: false
+        }
+    }
+
     deleteProduct=(id)=>{
-        axios.delete(`/api/inventory/${id}`).then(()=>{
-            this.props.componentDidMount();
+        axios.delete(`/api/product/${id}`).then(()=>{
+            this.props.getData();
         }).catch(err=>{
             console.log(err)
         })
-        
+    }
+
+    editProduct=(id)=>{
+        axios.put(`/api/product/${id}`, {
+            price:this.state.priceUpdate
+        }).then(()=>{
+            // this.props.getData();
+        })
+    }
+
+    setPriceUpdate=(e)=>{
+        this.setState({priceUpdate:e})
+    }
+
+    setEdit=()=>{
+        this.setState({editBtn:true})
     }
 
     render(props){
@@ -23,7 +46,10 @@ class Dashboard extends Component{
                              name={e.name}
                              price={e.price}
                              image={e.image}
-                             deleteProduct={this.deleteProduct}/>
+                             deleteProduct={this.deleteProduct}
+                             editProduct={this.editProduct}
+                             setPriceUpdate={this.setPriceUpdate}
+                             setEdit={this.setEdit}/>
                 )}
             </div>
         )

@@ -3,7 +3,7 @@ const express =  require('express')
 const {json} = require('body-parser')
 const massive = require('massive')
 const app = express()
-const {getDb, postProduct, deleteProduct} = require('./controller')
+const {getDb, postProduct, deleteProduct, updateProduct} = require('./controller')
 
 app.use(json())
 
@@ -16,8 +16,8 @@ massive(process.env.CONNECTION_STRING).then(dbInstance=>{
 
 app.get('/api/inventory', getDb)
 app.post('/api/product', postProduct)
-// app.put()
-app.delete('/api/inventory/:id', deleteProduct)
+app.delete('/api/product/:id', deleteProduct)
+app.put('/api/product/:id', updateProduct)
 
 
 port = 3001
